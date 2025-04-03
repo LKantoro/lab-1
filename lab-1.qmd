@@ -135,10 +135,15 @@ two levels: `petrol` (any car using petrolium-based gas) and
 ```{r}
 #https://rpubs.com/shailesh/mpg-exploration
 
-#fix label based on petrol
-mpg['fuel_type'] = if_else(mpg[['fl']] %in% c('p','d', 'c'), 'petrol', 'alternative energy')
+#p = propane (petrol)
+#c = compressed natural gas (alternative)
+#r = gasoline (petrol)
+#e = ethanol (alternative)
+#d = diesel (petrol)
 
-mpg[1:100, 12]
+mpg['fuel_type'] = if_else(mpg[['fl']] %in% c('p','r', 'd'), 'petrol', 'alternative energy')
+
+
 
 
 ```
@@ -149,13 +154,9 @@ Specifically, use the `case_when()` function to change the `drv` varible to have
 the following levels: `front`, `rear`, `four wheel`. 
 
 ```{r}
-
-#producing an error
-case_when(mpg[['drv']] = 'f' ~ 'front',
-          mpg[['drv']] = 'r' ~ 'rear',
-          mpg[['drv']] = '4' ~ 'four wheel')
-
-mpg[1:10,1:12]
+mpg[['drv']] = case_when(mpg[['drv']] == 'f' ~ 'front',
+          mpg[['drv']] == 'r' ~ 'rear',
+          mpg[['drv']] == '4' ~ 'four wheel')
 
 ```
 
@@ -170,6 +171,14 @@ of the `trans` column to `trans_style`.
 
 ```{r}
 #do within a mutate
+library(stringr)
+#mpg['trans']
+
+#str_split(mpg[["trans"]], " ")
+
+#mpg[["trans"]]
+
+
 ```
 
 ## Getting to know your classmates
