@@ -134,8 +134,12 @@ Then, use the `if_else()` function to create a new variable (`fuel_type`) with
 two levels: `petrol` (any car using petrolium-based gas) and 
 `alternative energy` (any car not using petrolium-based gas). 
 
+
 ```{r}
-#https://rpubs.com/shailesh/mpg-exploration
+#| label: "Using if_else()"
+
+
+#dataset info: https://rpubs.com/shailesh/mpg-exploration
 
 #p = propane (petrol)
 #c = compressed natural gas (alternative)
@@ -143,8 +147,11 @@ two levels: `petrol` (any car using petrolium-based gas) and
 #e = ethanol (alternative)
 #d = diesel (petrol)
 
+#propane, gasoline, and diesel are petrols
 mpg['fuel_type'] = if_else(mpg[['fl']] %in% c('p','r', 'd'), 'petrol', 'alternative energy')
 
+head(mpg$fuel_type)
+head(mpg$fl)
 ```
 
 12. The `drv` variable describes if the car has front drive (`f`), rear drive
@@ -153,11 +160,17 @@ Specifically, use the `case_when()` function to change the `drv` varible to have
 the following levels: `front`, `rear`, `four wheel`. 
 
 ```{r}
+#| label: "Using case_when()"
+
+#case when for different cases of a categorical variable
 mpg[['drv']] = case_when(mpg[['drv']] == 'f' ~ 'front',
           mpg[['drv']] == 'r' ~ 'rear',
           mpg[['drv']] == '4' ~ 'four wheel')
 
+
+head(mpg$drv, 10)
 ```
+
 
 (string split + remove extra ")" )
 13. The `trans` variable contains two pieces of information, (1) the
@@ -169,6 +182,9 @@ of the `trans` column to `trans_style`.
 *Hint: You will need to deal with the stray parenthesis!* 
 
 ```{r}
+#| label: "Using str_split()"
+
+
 #do within a mutate
 #use string_split
 
@@ -178,6 +194,8 @@ of the `trans` column to `trans_style`.
 mpg = mpg %>% mutate(trans_type = str_split(trans, "\\(|\\)", simplify = TRUE, n = 2))
 
 #making the new trans_style the first part of the split
+
+
 mpg$trans_style = mpg$trans_type[,1]
 
 #making the trans_type into second part of split string
@@ -191,7 +209,9 @@ mpg = mpg %>% mutate(trans_type = str_split(mpg$trans_type, "\\(|\\)", simplify 
 mpg$trans_type = mpg$trans_type[,1]
 
 
-head(mpg)
+head(mpg$trans_style)
+
+head(mpg$trans_type)
 
 ```
 
@@ -217,10 +237,13 @@ birthdays are.
 - Dr. Theobold's birthday in January 14th.
 
 ```{r}
+#| label: "Finding Date Differences"
+
+
 my_birthday = as.Date('10/23', format="%m/%d")
 other_birthday = as.Date('01/14',format="%m/%d")
 
 my_birthday - other_birthday
 ```
 
-- Our birthdays are 285 days apart.
+- Our birthdays are 282 days apart.
