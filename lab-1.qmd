@@ -145,9 +145,6 @@ two levels: `petrol` (any car using petrolium-based gas) and
 
 mpg['fuel_type'] = if_else(mpg[['fl']] %in% c('p','r', 'd'), 'petrol', 'alternative energy')
 
-
-
-
 ```
 
 12. The `drv` variable describes if the car has front drive (`f`), rear drive
@@ -176,30 +173,22 @@ of the `trans` column to `trans_style`.
 #use string_split
 
 
-#https://forum.posit.co/t/extract-content-inside-last-parentheses-in-a-string/100142
-mpg %>% 
-  mutate(trans_type = str_extract(trans, "(?<=\\().*(?=\\))"))
-
-
 #https://stackoverflow.com/questions/31292853/strsplit-by-parentheses
+#splitting trans variable
+mpg = mpg %>% mutate(trans_type = str_split(trans, "\\(|\\)", simplify = TRUE, n = 2))
 
-(mpg %>% mutate(trans_type = str_split(trans, "\\(|\\)")))$trans_type
+#making the new trans_style the first part of the split
+mpg$trans_style = mpg$trans_type[,1]
+
+#making the trans_type into second part of split string
+mpg$trans_type = mpg$trans_type[,2]
 
 
+#splitting trans_type again to remove trailing ")"
+mpg = mpg %>% mutate(trans_type = str_split(mpg$trans_type, "\\(|\\)", simplify = TRUE))
 
-mpg$trans_type = mpg$trans_type[1][2]
-
-
-mpg$trans_type
-
-str_replace(apple, "(?<=\\().*(?=\\))", " ")
-
-#split string on parenthesis
-#remove parenthesis, replace with a space
-#split string on space
-
-#
-
+#taking first part of split string
+mpg$trans_type = mpg$trans_type[,1]
 
 ```
 
@@ -223,8 +212,7 @@ birthdays are.
 
 my_birthday = as.Date('2001/10/23', format="%Y/%m/%d")
 other_birthday = as.Date('2002/01/11',format="%Y/%m/%d")
-my_birthday
-other_birthday
+
 my_birthday - other_birthday
 
 
