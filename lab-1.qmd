@@ -190,6 +190,9 @@ mpg = mpg %>% mutate(trans_type = str_split(mpg$trans_type, "\\(|\\)", simplify 
 #taking first part of split string
 mpg$trans_type = mpg$trans_type[,1]
 
+
+head(mpg)
+
 ```
 
 ## Getting to know your classmates
@@ -199,7 +202,11 @@ your experiences. Tell me their name and professor. List one or two things that
 you think you learned more about, and one or two things that they learned more
 about.
 
+- Sydney took STAT 331 with Dr. Theobold. They coded entirely in Quarto documents,
+and did a lot of ggplot.
 
+- I took STAT 331 with Dr. Lund. He focused more on statistical analysis and custom
+function creation. 
 
 
 15. Find someone in the class who **does not** share your birth month. Tell me
@@ -207,13 +214,13 @@ their name and birthday, and use R to find out how many days apart your
 birthdays are.
 
 
+- Dr. Theobold's birthday in January 14th.
+
 ```{r}
-
-
-my_birthday = as.Date('2001/10/23', format="%Y/%m/%d")
-other_birthday = as.Date('2002/01/11',format="%Y/%m/%d")
+my_birthday = as.Date('10/23', format="%m/%d")
+other_birthday = as.Date('01/14',format="%m/%d")
 
 my_birthday - other_birthday
-
-
 ```
+
+- Our birthdays are 285 days apart.
