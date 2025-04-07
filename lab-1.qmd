@@ -14,6 +14,8 @@ execute:
 
 library(tidyverse)
 library(ggridges)
+library(stringr)
+
 ```
 
 ## Quarto
@@ -171,12 +173,32 @@ of the `trans` column to `trans_style`.
 
 ```{r}
 #do within a mutate
-library(stringr)
-#mpg['trans']
+#use string_split
 
-#str_split(mpg[["trans"]], " ")
 
-#mpg[["trans"]]
+#https://forum.posit.co/t/extract-content-inside-last-parentheses-in-a-string/100142
+mpg %>% 
+  mutate(trans_type = str_extract(trans, "(?<=\\().*(?=\\))"))
+
+
+#https://stackoverflow.com/questions/31292853/strsplit-by-parentheses
+
+(mpg %>% mutate(trans_type = str_split(trans, "\\(|\\)")))$trans_type
+
+
+
+mpg$trans_type = mpg$trans_type[1][2]
+
+
+mpg$trans_type
+
+str_replace(apple, "(?<=\\().*(?=\\))", " ")
+
+#split string on parenthesis
+#remove parenthesis, replace with a space
+#split string on space
+
+#
 
 
 ```
@@ -188,6 +210,22 @@ your experiences. Tell me their name and professor. List one or two things that
 you think you learned more about, and one or two things that they learned more
 about.
 
+
+
+
 15. Find someone in the class who **does not** share your birth month. Tell me
 their name and birthday, and use R to find out how many days apart your
 birthdays are.
+
+
+```{r}
+
+
+my_birthday = as.Date('2001/10/23', format="%Y/%m/%d")
+other_birthday = as.Date('2002/01/11',format="%Y/%m/%d")
+my_birthday
+other_birthday
+my_birthday - other_birthday
+
+
+```
